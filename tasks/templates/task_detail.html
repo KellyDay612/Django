@@ -3,10 +3,7 @@
 {% load i18n %}
 
 {% block content %}
-<<<<<<< HEAD
 
-=======
->>>>>>> 8ce2f98 (first commit)
 <main class="container mb-4">
     <div class="row">
         <div class="col-md-8 offset-md-2 mt-5">
@@ -46,17 +43,14 @@
             <ul id="subtask-list" class="list-group">
                 {% for subtask in subtasks %}
                 <li class="list-group-item d-flex justify-content-between align-items-center"
-<<<<<<< HEAD
                     id="subtask-{{ subtask.id }}">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="" id="subtask-check-{{ subtask.id }}"
                             {%if subtask.completed %}checked{% endif %}
-=======
                     id="subtask-{{ subtask.id }}" data-id="{{ subtask.id }}">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="" id="subtask-check-{{ subtask.id }}"
                             {% if subtask.datecompleted %}checked{% endif %}
->>>>>>> 8ce2f98 (first commit)
                             onchange="toggleSubtaskCompletion('{{ subtask.id }}')">
                         <label class="form-check-label" for="subtask-check-{{ subtask.id }}">
                             {{ subtask.title }}
@@ -66,14 +60,11 @@
                         <a href="{% url 'subtask_detail' task.id subtask.id %}" class="btn btn-info btn-sm">
                             {% trans "Details" %}
                         </a>
-<<<<<<< HEAD
                         <button class="btn btn-warning btn-sm"
                             onclick="openSubtaskModal('{{ subtask.id }}', '{{ subtask.title|escapejs }}', '{{ subtask.description|escapejs }}')">
                             {% trans "Update" %}
-=======
                         <button class="btn btn-danger btn-sm" onclick="deleteSubtask('{{ subtask.id }}')">
                             {% trans "Delete" %}
->>>>>>> 8ce2f98 (first commit)
                         </button>
                     </div>
                 </li>
@@ -105,12 +96,10 @@
                         </div>
                         <div class="form-group">
                             <label for="subtask-description">{% trans "Description" %}</label>
-<<<<<<< HEAD
                             <textarea class="form-control" id="subtask-description" name="description"
                                 required></textarea>
-=======
+
                             <textarea class="form-control" id="subtask-description" name="description"></textarea>
->>>>>>> 8ce2f98 (first commit)
                         </div>
                         <div class="form-group form-check">
                             <input type="checkbox" class="form-check-input" id="subtask-important" name="important">
@@ -124,7 +113,7 @@
     </div>
 </main>
 
-<<<<<<< HEAD
+ 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
 <script>
     // Obtener el elemento de la lista de subtareas
@@ -150,7 +139,7 @@
         const subtaskForm = document.getElementById('subtask-form');
         function openSubtaskModal(subtaskId = null, title = '', description = '') {
             console.log("holaaaa");
-=======
+
 <!-- Script para la gestión de subtareas -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
 <script>
@@ -171,27 +160,23 @@
         });
         //Función para abrir el modal de subtarea
         function openSubtaskModal(subtaskId = null, title = '', description = '') {
->>>>>>> 8ce2f98 (first commit)
             document.getElementById('subtask-id').value = subtaskId || '';
             document.getElementById('subtask-title').value = title;
             document.getElementById('subtask-description').value = description;
             document.getElementById('subtaskModalLabel').textContent = subtaskId ? '{% trans "Update Subtask" %}' : '{% trans "Create Subtask" %}';
             $('#subtaskModal').modal('show');
         }
-<<<<<<< HEAD
-=======
+
         // Evento para abrir el modal de subtarea
->>>>>>> 8ce2f98 (first commit)
         document.getElementById('show-subtask-modal').addEventListener('click', function () {
             openSubtaskModal();
         });
 
         window.openSubtaskModal = openSubtaskModal;
 
-<<<<<<< HEAD
-=======
+
         // Función para mostrar una alerta
->>>>>>> 8ce2f98 (first commit)
+
         function showAlert(message, type = 'success') {
             const alertDiv = document.createElement('div');
             alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
@@ -206,15 +191,12 @@
             setTimeout(() => alertDiv.remove(), 5000);
         }
 
-<<<<<<< HEAD
-=======
+
         // Función para cambiar el estado de completado de una subtarea
->>>>>>> 8ce2f98 (first commit)
         function toggleSubtaskCompletion(subtaskId) {
             fetch(`/tasks/{{ task.id }}/subtasks/${subtaskId}/toggle_completion/`, {
                 method: 'POST',
                 headers: {
-<<<<<<< HEAD
                     'X-CSRFToken': getCookie('csrftoken')
                 }
             })
@@ -306,7 +288,6 @@
                         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                         break;
                     }
-=======
                     'X-CSRFToken': getCookie('csrftoken'),
                     'Content-Type': 'application/json'
                 },
@@ -315,7 +296,6 @@
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
->>>>>>> 8ce2f98 (first commit)
                 }
                 return response.json();
             })
@@ -362,9 +342,6 @@
             }
             return cookieValue;
         }
-<<<<<<< HEAD
-=======
-
         window.deleteSubtask = deleteSubtask;
 
         // Evento para enviar el formulario de subtarea
@@ -447,7 +424,6 @@
             }
             return cookieValue;
         }
->>>>>>> 8ce2f98 (first commit)
     });
 </script>
 {% endblock %}
