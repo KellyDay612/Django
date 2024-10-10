@@ -155,7 +155,6 @@ def create_subtask(request, task_id):
             new_subtask.user = request.user
             new_subtask.parent_task = parent_task
             new_subtask.save()
-<<<<<<< HEAD
             return  JsonResponse({'message': 'Subtarea creada con éxito.'})
         except ValueError:
             return render(request, 'create_subtask.html', {
@@ -171,12 +170,10 @@ def subtask_detail(request, task_id, subtask_id):
     if request.method == 'GET':
         form = TaskForm(instance=subtask)
         return render(request, 'subtask_detail.html', {'subtask': subtask, 'form': form})
-=======
             return JsonResponse({'message': 'Subtarea creada con éxito.'})
         else:
             # Devuelve errores si el formulario no es válido
             return JsonResponse({'error': 'Formulario inválido.', 'errors': form.errors}, status=400)
->>>>>>> 8ce2f98 (first commit)
     else:
         form = SubtaskForm()
     
