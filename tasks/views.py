@@ -168,17 +168,23 @@ def create_subtask(request, task_id):
 @login_required
 def subtask_detail(request, task_id, subtask_id):
     subtask = get_object_or_404(Task, pk=subtask_id, user=request.user, parent_task_id=task_id)
+
     if request.method == 'GET':
         form = TaskForm(instance=subtask)
         return render(request, 'subtask_detail.html', {'subtask': subtask, 'form': form})
-            return JsonResponse({'message': 'Subtarea creada con éxito.'})
+    
+    elif request.method == 'POST':
+        form = TaskForm(request.POST, instance=subtask)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'message': 'Subtarea actualizada con éxito.'})
         else:
             # Devuelve errores si el formulario no es válido
             return JsonResponse({'error': 'Formulario inválido.', 'errors': form.errors}, status=400)
-    else:
-        form = SubtaskForm()
-    
-    return render(request, 'create_subtask.html', {'form': form, 'parent_task': parent_task})
+
+    # En caso de que el método no sea GET ni POST, puedes redirigir o manejar de otra manera.
+    return JsonResponse({'error': 'Método no permitido.'}, status=405)
+
 
 # Vista para actualizar una subtarea
 @login_required
