@@ -1,17 +1,5 @@
-<<<<<<< HEAD
-from django.shortcuts import render, redirect, get_object_or_404  
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.models import User
-from django.contrib.auth import login, logout
-from django.db import IntegrityError
-from django.contrib.auth import authenticate
-from django.utils import timezone
-from django.contrib.auth.decorators import login_required
-from .forms import TaskForm, SubtaskForm
-=======
 import logging
 
->>>>>>> 8ce2f98 (first commit)
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -25,7 +13,6 @@ from django.views.decorators.http import require_POST
 
 from .forms import SubtaskForm, TaskForm
 from .models import Task
-from django.http import JsonResponse
 
 logger = logging.getLogger(__name__)
 
