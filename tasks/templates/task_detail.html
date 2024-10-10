@@ -1,0 +1,453 @@
+<!-- Template para la vista de detalle de una tarea -->
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<<<<<<< HEAD
+
+=======
+>>>>>>> 8ce2f98 (first commit)
+<main class="container mb-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2 mt-5">
+            <h1 class="text-secondary">{{ task.title }}</h1>
+            {% if error %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+            {% endif %}
+            <form method="POST" id="update-task-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-primary" type="submit">
+                    {% trans "Update Task" %}
+                </button>
+            </form>
+
+            <div class="d-flex mt-3">
+                <form action="{% url 'complete_task' task.id %}" method="POST" class="mr-2">
+                    {% csrf_token %}
+                    <button class="btn btn-success">
+                        {% trans "Mark as Complete" %}
+                    </button>
+                </form>
+                <form action="{% url 'delete_task' task.id %}" method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-danger">
+                        {% trans "Delete Task" %}
+                    </button>
+                </form>
+            </div>
+
+            <h2 class="mt-5">{% trans "Subtasks" %}</h2>
+            <button class="btn btn-primary mb-3" id="show-subtask-modal">
+                {% trans "Create New Subtask" %}
+            </button>
+            <ul id="subtask-list" class="list-group">
+                {% for subtask in subtasks %}
+                <li class="list-group-item d-flex justify-content-between align-items-center"
+<<<<<<< HEAD
+                    id="subtask-{{ subtask.id }}">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="subtask-check-{{ subtask.id }}"
+                            {%if subtask.completed %}checked{% endif %}
+=======
+                    id="subtask-{{ subtask.id }}" data-id="{{ subtask.id }}">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="subtask-check-{{ subtask.id }}"
+                            {% if subtask.datecompleted %}checked{% endif %}
+>>>>>>> 8ce2f98 (first commit)
+                            onchange="toggleSubtaskCompletion('{{ subtask.id }}')">
+                        <label class="form-check-label" for="subtask-check-{{ subtask.id }}">
+                            {{ subtask.title }}
+                        </label>
+                    </div>
+                    <div>
+                        <a href="{% url 'subtask_detail' task.id subtask.id %}" class="btn btn-info btn-sm">
+                            {% trans "Details" %}
+                        </a>
+<<<<<<< HEAD
+                        <button class="btn btn-warning btn-sm"
+                            onclick="openSubtaskModal('{{ subtask.id }}', '{{ subtask.title|escapejs }}', '{{ subtask.description|escapejs }}')">
+                            {% trans "Update" %}
+=======
+                        <button class="btn btn-danger btn-sm" onclick="deleteSubtask('{{ subtask.id }}')">
+                            {% trans "Delete" %}
+>>>>>>> 8ce2f98 (first commit)
+                        </button>
+                    </div>
+                </li>
+                {% empty %}
+                <li class="list-group-item">{% trans "No subtasks available" %}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Modal para crear/actualizar subtarea -->
+    <div class="modal fade" id="subtaskModal" tabindex="-1" role="dialog" aria-labelledby="subtaskModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="subtaskModalLabel">{% trans "Subtask" %}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="subtask-form" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" id="subtask-id" name="subtask_id">
+                        <div class="form-group">
+                            <label for="subtask-title">{% trans "Title" %}</label>
+                            <input type="text" class="form-control" id="subtask-title" name="title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subtask-description">{% trans "Description" %}</label>
+<<<<<<< HEAD
+                            <textarea class="form-control" id="subtask-description" name="description"
+                                required></textarea>
+=======
+                            <textarea class="form-control" id="subtask-description" name="description"></textarea>
+>>>>>>> 8ce2f98 (first commit)
+                        </div>
+                        <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input" id="subtask-important" name="important">
+                            <label class="form-check-label" for="subtask-important">{% trans "Important" %}</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<<<<<<< HEAD
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+<script>
+    // Obtener el elemento de la lista de subtareas
+    const subtaskList = document.getElementById('subtask-list');
+
+    // Inicializar Sortable
+    // Sortable es una librería de JavaScript que permite reordenar elementos en una lista
+    Sortable.create(subtaskList, {
+        // Configuración de Sortable para reordenar elementos 
+        // animation: 150 es el tiempo de animación en milisegundos
+        animation: 150,
+        // onEnd es una función que se ejecuta después de reordenar los elementos
+        onEnd: function (evt) {
+            // Aquí puedes manejar la lógica después de reordenar
+            const order = Array.from(subtaskList.children).map(item => item.dataset.id);
+        }
+    });
+
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const updateTaskForm = document.getElementById('update-task-form');
+        const subtaskForm = document.getElementById('subtask-form');
+        function openSubtaskModal(subtaskId = null, title = '', description = '') {
+            console.log("holaaaa");
+=======
+<!-- Script para la gestión de subtareas -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+<script>
+    
+    document.addEventListener('DOMContentLoaded', function () {
+        // Variables para los formularios y la lista de subtareas
+        const updateTaskForm = document.getElementById('update-task-form');
+        const subtaskForm = document.getElementById('subtask-form');
+        const subtaskList = document.getElementById('subtask-list');
+
+        // Función para ordenar las subtareas
+        Sortable.create(subtaskList, {
+            animation: 150,
+            onEnd: function (evt) {
+                const order = Array.from(subtaskList.children).map(item => item.dataset.id);
+                // Aquí puedes enviar el nuevo orden al servidor si lo necesitas
+            }
+        });
+        //Función para abrir el modal de subtarea
+        function openSubtaskModal(subtaskId = null, title = '', description = '') {
+>>>>>>> 8ce2f98 (first commit)
+            document.getElementById('subtask-id').value = subtaskId || '';
+            document.getElementById('subtask-title').value = title;
+            document.getElementById('subtask-description').value = description;
+            document.getElementById('subtaskModalLabel').textContent = subtaskId ? '{% trans "Update Subtask" %}' : '{% trans "Create Subtask" %}';
+            $('#subtaskModal').modal('show');
+        }
+<<<<<<< HEAD
+=======
+        // Evento para abrir el modal de subtarea
+>>>>>>> 8ce2f98 (first commit)
+        document.getElementById('show-subtask-modal').addEventListener('click', function () {
+            openSubtaskModal();
+        });
+
+        window.openSubtaskModal = openSubtaskModal;
+
+<<<<<<< HEAD
+=======
+        // Función para mostrar una alerta
+>>>>>>> 8ce2f98 (first commit)
+        function showAlert(message, type = 'success') {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+            alertDiv.role = 'alert';
+            alertDiv.innerHTML = `
+            ${message}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            `;
+            document.querySelector('main').prepend(alertDiv);
+            setTimeout(() => alertDiv.remove(), 5000);
+        }
+
+<<<<<<< HEAD
+=======
+        // Función para cambiar el estado de completado de una subtarea
+>>>>>>> 8ce2f98 (first commit)
+        function toggleSubtaskCompletion(subtaskId) {
+            fetch(`/tasks/{{ task.id }}/subtasks/${subtaskId}/toggle_completion/`, {
+                method: 'POST',
+                headers: {
+<<<<<<< HEAD
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    showAlert(data.message);
+                    if (data.all_subtasks_completed) {
+                        showAlert('{% trans "All subtasks completed. Do you want to mark the main task as complete?" %}', 'info');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showAlert('{% trans "Error updating subtask completion" %}', 'danger');
+                });
+        }
+        window.toggleSubtaskCompletion = toggleSubtaskCompletion;
+
+        subtaskForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const subtaskId = formData.get('subtask_id');
+            const url = subtaskId
+                ? `/tasks/{{ task.id }}/subtasks/${subtaskId}/update/`
+                : `/tasks/{{ task.id }}/subtasks/create/`;
+
+            fetch(url, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    $('#subtaskModal').modal('hide');
+                    showAlert(data.message);
+                    // Actualizar la lista de subtareas
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showAlert('{% trans "Error saving subtask" %}', 'danger');
+                });
+        });
+
+        updateTaskForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    showAlert('{% trans "Task updated successfully" %}');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showAlert('{% trans "Error updating task" %}', 'danger');
+                });
+        });
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+=======
+                    'X-CSRFToken': getCookie('csrftoken'),
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({})
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+>>>>>>> 8ce2f98 (first commit)
+                }
+                return response.json();
+            })
+            .then(data => {
+                const checkbox = document.getElementById(`subtask-check-${subtaskId}`);
+                checkbox.checked = data.completed;
+                showAlert(data.message);
+                if (data.all_subtasks_completed) {
+                    showAlert('{% trans "All subtasks completed. Do you want to mark the main task as complete?" %}', 'info');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showAlert('{% trans "Error updating subtask completion" %}', 'danger');
+            });
+        }
+
+        window.toggleSubtaskCompletion = toggleSubtaskCompletion;
+
+        // Función para eliminar una subtarea
+        function deleteSubtask(subtaskId) {
+            if (confirm('{% trans "Are you sure you want to delete this subtask?" %}')) {
+                fetch(`/tasks/{{ task.id }}/subtasks/${subtaskId}/delete/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken'),
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    showAlert(data.message);
+                    document.getElementById(`subtask-${subtaskId}`).remove();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showAlert('{% trans "Error deleting subtask" %}', 'danger');
+                });
+            }
+            return cookieValue;
+        }
+<<<<<<< HEAD
+=======
+
+        window.deleteSubtask = deleteSubtask;
+
+        // Evento para enviar el formulario de subtarea
+        subtaskForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const subtaskId = formData.get('subtask_id');
+            const url = subtaskId
+                ? `/tasks/{{ task.id }}/subtasks/${subtaskId}/update/`
+                : `/tasks/{{ task.id }}/subtasks/create/`;
+        
+            fetch(url, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    throw new Error(JSON.stringify(data));
+                }
+                $('#subtaskModal').modal('hide');
+                showAlert(data.message);
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                let errorMessage = 'Error al guardar la subtarea';
+                try {
+                    const errorData = JSON.parse(error.message);
+                    errorMessage += ': ' + JSON.stringify(errorData.errors);
+                } catch (e) {
+                    errorMessage += ': ' + error.message;
+                }
+                showAlert(errorMessage, 'danger');
+            });
+        });
+
+        // Evento para enviar el formulario de tarea
+        updateTaskForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                showAlert('{% trans "Task updated successfully" %}');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showAlert('{% trans "Error updating task" %}', 'danger');
+            });
+        });
+
+        // Función para obtener el valor de una cookie
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+>>>>>>> 8ce2f98 (first commit)
+    });
+</script>
+{% endblock %}
