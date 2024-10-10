@@ -150,12 +150,13 @@ def create_subtask(request, task_id):
     if request.method == 'POST':
         # Crea la subtarea relacionada con la tarea principal
         form = SubtaskForm(request.POST)
-        if form.is_valid():
-            new_subtask = form.save(commit=False)
-            new_subtask.user = request.user
-            new_subtask.parent_task = parent_task
-            new_subtask.save()
-            return  JsonResponse({'message': 'Subtarea creada con éxito.'})
+        try:
+            if form.is_valid():
+                new_subtask = form.save(commit=False)
+                new_subtask.user = request.user
+                new_subtask.parent_task = parent_task
+                new_subtask.save()
+                return  JsonResponse({'message': 'Subtarea creada con éxito.'})
         except ValueError:
             return render(request, 'create_subtask.html', {
                 'form': form,
